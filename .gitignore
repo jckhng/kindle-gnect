@@ -1,0 +1,14 @@
+# Native build outputs
+/kindle-gnect
+/smoke-test
+*.o
+
+# Generated package tree
+/dist/
+/release/extensions/
+/release/documents/
+/release/kindle-gnect-extension/
+
+# Editor/OS noise
+*~
+.DS_Store
