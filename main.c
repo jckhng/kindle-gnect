@@ -8,7 +8,9 @@
 
 #define APP_TITLE "Kindle Gnect"
 #define KINDLE_WINDOW_TITLE "L:A_N:application_ID:kindlegnect_PC:N_O:URL"
-#define SAVE_PATH "/mnt/us/documents/kindle-gnect.txt"
+#define KINDLE_WINDOW_TITLE_TOPBAR "L:A_N:application_PC:T_ID:kindlegnect_O:URL"
+#define SAVE_PATH "/mnt/us/extensions/kindle-gnect/kindle-gnect.save"
+#define LEGACY_SAVE_PATH "/mnt/us/documents/kindle-gnect.txt"
 #define LOG_PATH "/mnt/us/kindle-gnect.log"
 #define KINDLE_APP_WIDTH 1072
 #define KINDLE_APP_HEIGHT 1448
@@ -20,6 +22,13 @@ typedef enum {
     MODE_AI_DEMO = 3
 } AppMode;
 
+static const char *kindle_window_title(void)
+{
+    const char *value = g_getenv("KINDLE_SHOW_TOPBAR");
+    return (value != NULL && value[0] != '\0' && strcmp(value, "0") != 0) ? KINDLE_WINDOW_TITLE_TOPBAR
+                                                                          : KINDLE_WINDOW_TITLE;
+}
+
 typedef struct {
     GtkWidget *window;
     GtkWidget *board;
@@ -27,6 +36,8 @@ typedef struct {
     GtkWidget *red_score;
     GtkWidget *yellow_score;
     GtkWidget *moves_label;
+    GtkWidget *history_sidebar;
+    GtkWidget *history_toggle_button;
     GtkWidget *mode_combo;
     GtkWidget *level_combo;
     GtkWidget *history_first_button;
@@ -39,6 +50,7 @@ typedef struct {
     int view_ply;
     guint ai_source;
     char message[160];
+    gboolean history_visible;
 } AppState;
 
 static AppState app;
@@ -46,6 +58,23 @@ static AppState app;
 static gboolean is_ai_turn(void);
 static void update_ui(void);
 static void new_game(void);
+
+static void toggle_history_cb(GtkWidget *widget, gpointer data)
+{
+    (void)widget;
+    (void)data;
+
+    app.history_visible = !app.history_visible;
+    if (app.history_visible) {
+        gtk_widget_show(app.history_sidebar);
+        gtk_button_set_label(GTK_BUTTON(app.history_toggle_button), "Hide Moves");
+    } else {
+        gtk_widget_hide(app.history_sidebar);
+        gtk_button_set_label(GTK_BUTTON(app.history_toggle_button), "Show Moves");
+    }
+    gtk_widget_queue_resize(app.board);
+    gtk_widget_queue_draw(app.board);
+}
 
 static void app_log(const char *message)
 {
@@ -463,7 +492,7 @@ static void save_cb(GtkWidget *widget, gpointer data)
     for (i = 0; i < app.game.move_count; i++)
         fprintf(f, "%d\n", app.game.moves[i]);
     fclose(f);
-    set_message("Saved to Documents/kindle-gnect.txt");
+    set_message("Game saved.");
     update_ui();
 }
 
@@ -477,6 +506,8 @@ static void load_cb(GtkWidget *widget, gpointer data)
     (void)data;
 
     f = fopen(SAVE_PATH, "r");
+    if (f == NULL)
+        f = fopen(LEGACY_SAVE_PATH, "r");
     if (!f) {
         set_message("No saved game found.");
         update_ui();
@@ -638,11 +669,9 @@ static void build_ui(void)
     GtkWidget *history_nav_box;
 
     app.window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-    gtk_window_set_title(GTK_WINDOW(app.window), KINDLE_WINDOW_TITLE);
+    gtk_window_set_title(GTK_WINDOW(app.window), kindle_window_title());
     gtk_window_set_default_size(GTK_WINDOW(app.window), KINDLE_APP_WIDTH, KINDLE_APP_HEIGHT);
-    gtk_widget_set_size_request(app.window, KINDLE_APP_WIDTH, KINDLE_APP_HEIGHT);
-    gtk_window_set_resizable(GTK_WINDOW(app.window), FALSE);
-    gtk_window_move(GTK_WINDOW(app.window), 0, 0);
+    gtk_window_set_resizable(GTK_WINDOW(app.window), TRUE);
     gtk_container_set_border_width(GTK_CONTAINER(app.window), 8);
     g_signal_connect(app.window, "destroy", G_CALLBACK(gtk_main_quit), NULL);
     g_signal_connect(app.window, "key-press-event", G_CALLBACK(key_press), NULL);
@@ -674,18 +703,23 @@ static void build_ui(void)
     app.level_combo = combo_with_items(levels, 1);
     labeled_combo(settings, "Level", app.level_combo);
     g_signal_connect(app.level_combo, "changed", G_CALLBACK(level_changed), NULL);
+    app.history_toggle_button = gtk_button_new_with_label("Hide Moves");
+    gtk_box_pack_start(GTK_BOX(settings), app.history_toggle_button, FALSE, FALSE, 0);
+    g_signal_connect(app.history_toggle_button, "clicked", G_CALLBACK(toggle_history_cb), NULL);
 
     content = gtk_hbox_new(FALSE, 12);
     gtk_box_pack_start(GTK_BOX(vbox), content, TRUE, TRUE, 0);
 
     app.board = gtk_drawing_area_new();
     gtk_widget_set_size_request(app.board, 760, 660);
-    gtk_box_pack_start(GTK_BOX(content), app.board, FALSE, FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(content), app.board, TRUE, TRUE, 0);
     gtk_widget_add_events(app.board, GDK_BUTTON_PRESS_MASK);
     g_signal_connect(app.board, "expose-event", G_CALLBACK(board_expose), NULL);
     g_signal_connect(app.board, "button-press-event", G_CALLBACK(board_button), NULL);
 
     sidebar = gtk_vbox_new(FALSE, 8);
+    app.history_sidebar = sidebar;
+    app.history_visible = TRUE;
     gtk_box_pack_start(GTK_BOX(content), sidebar, FALSE, TRUE, 0);
 
     score_box = gtk_vbox_new(FALSE, 6);
