@@ -1,11 +1,11 @@
 #!/bin/sh
 
-EXT_DIR="/mnt/us/extensions/kindle-gnect"
-LAUNCHER="$EXT_DIR/launch_kindlegnect.sh"
-LOG_FILE="/mnt/us/kindle-gnect-shortcut.log"
+EXT_DIR="/mnt/us/extensions/exact-four-in-a-row"
+LAUNCHER="$EXT_DIR/launch_exactfourinarow.sh"
+LOG_FILE="/mnt/us/exact-four-in-a-row-shortcut.log"
 
 {
-    echo "----- Kindle Gnect shortcut $(date) -----"
+    echo "----- Exact Four in a Row shortcut $(date) -----"
     echo "cwd=$(pwd)"
     echo "launcher=$LAUNCHER"
 } >>"$LOG_FILE" 2>&1

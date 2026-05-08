@@ -1,4 +1,4 @@
-# Building Kindle Gnect
+# Building Exact Four in a Row
 
 ## Requirements
 
@@ -20,22 +20,22 @@ docker run --privileged --rm tonistiigi/binfmt --install arm
 The persistent builder is:
 
 ```text
-image:     kindle-gnect-armhf-build:bullseye
-container: kindle-gnect-armhf-builder
+image:     exact-four-in-a-row-armhf-build:bullseye
+container: exact-four-in-a-row-armhf-builder
 ```
 
 Build outputs:
 
 ```text
-kindle-gnect
+exact-four-in-a-row
 smoke-test
-dist/kindle-gnect-extension.zip
+dist/exact-four-in-a-row-extension.zip
 ```
 
 ## Build Without Packaging
 
 ```bash
-KINDLE_GNECT_PACKAGE=0 ./docker_rebuild.sh
+EXACT_FOUR_IN_A_ROW_PACKAGE=0 ./docker_rebuild.sh
 ```
 
 ## Builder Shell
@@ -48,13 +48,13 @@ Inside the container:
 
 ```bash
 make clean
-make kindle-gnect smoke-test
+make exact-four-in-a-row smoke-test
 ./smoke-test
 ```
 
 If you move the repository, recreate the persistent container:
 
 ```bash
-docker rm -f kindle-gnect-armhf-builder
+docker rm -f exact-four-in-a-row-armhf-builder
 ./docker_rebuild.sh
 ```

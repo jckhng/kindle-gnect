@@ -6,5 +6,5 @@ CONTAINER="$("$ROOT/docker_start_builder.sh" | tail -n 1)"
 UID_HOST="$(id -u)"
 GID_HOST="$(id -g)"
 
-docker exec "$CONTAINER" chown -R "$UID_HOST:$GID_HOST" /src/kindle-gnect
+docker exec "$CONTAINER" chown -R "$UID_HOST:$GID_HOST" /src/exact-four-in-a-row
 exec docker exec -it --user "$UID_HOST:$GID_HOST" "$CONTAINER" /bin/bash

@@ -3,24 +3,26 @@ set -euo pipefail
 
 ROOT="$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)"
 PKG_ROOT="$ROOT/dist"
-EXT_ROOT="$PKG_ROOT/extensions/kindle-gnect"
+RELEASE_ROOT="$ROOT/release"
+EXT_ROOT="$PKG_ROOT/extensions/exact-four-in-a-row"
 DOC_ROOT="$PKG_ROOT/documents"
-CONTAINER="${KINDLE_GNECT_DOCKER_CONTAINER:-kindle-gnect-armhf-builder}"
+CONTAINER="${EXACT_FOUR_IN_A_ROW_DOCKER_CONTAINER:-exact-four-in-a-row-armhf-builder}"
 
 rm -rf "$PKG_ROOT"
+mkdir -p "$RELEASE_ROOT"
 mkdir -p "$EXT_ROOT/bin/armhf" \
          "$EXT_ROOT/lib/armhf" \
          "$EXT_ROOT/assets" \
          "$EXT_ROOT/LICENSES" \
          "$DOC_ROOT"
 
-cp "$ROOT/kindle-gnect" "$EXT_ROOT/bin/armhf/kindle-gnect"
+cp "$ROOT/exact-four-in-a-row" "$EXT_ROOT/bin/armhf/exact-four-in-a-row"
 cp "$ROOT/extension/config.xml" "$EXT_ROOT/config.xml"
 cp "$ROOT/extension/menu.json" "$EXT_ROOT/menu.json"
-cp "$ROOT/extension/launch_kindlegnect.sh" "$EXT_ROOT/launch_kindlegnect.sh"
-cp "$ROOT/extension/stop_kindlegnect.sh" "$EXT_ROOT/stop_kindlegnect.sh"
-cp "$ROOT/extension/tail_log_kindlegnect.sh" "$EXT_ROOT/tail_log_kindlegnect.sh"
-cp "$ROOT/extension/shortcut_kindlegnect.sh" "$DOC_ROOT/shortcut_kindlegnect.sh"
+cp "$ROOT/extension/launch_exactfourinarow.sh" "$EXT_ROOT/launch_exactfourinarow.sh"
+cp "$ROOT/extension/stop_exactfourinarow.sh" "$EXT_ROOT/stop_exactfourinarow.sh"
+cp "$ROOT/extension/tail_log_exactfourinarow.sh" "$EXT_ROOT/tail_log_exactfourinarow.sh"
+cp "$ROOT/extension/shortcut_exactfourinarow.sh" "$DOC_ROOT/shortcut_exactfourinarow.sh"
 cp "$ROOT/extension/NOTICE.txt" "$EXT_ROOT/NOTICE.txt"
 cp "$ROOT/extension/README.md" "$EXT_ROOT/README-package.txt"
 
@@ -29,11 +31,11 @@ cp "$ROOT/licenses/COPYING" "$EXT_ROOT/LICENSES/COPYING"
 cp "$ROOT/licenses/COPYING-DOCS" "$EXT_ROOT/LICENSES/COPYING-DOCS"
 cp "$ROOT/licenses/COPYING.GPL3" "$EXT_ROOT/LICENSES/COPYING.GPL3"
 
-if docker exec "$CONTAINER" /bin/bash -lc 'test -f /src/kindle-gnect/kindle-gnect' >/dev/null 2>&1; then
+if docker exec "$CONTAINER" /bin/bash -lc 'test -f /src/exact-four-in-a-row/exact-four-in-a-row' >/dev/null 2>&1; then
     docker exec "$CONTAINER" /bin/bash -lc '
         {
             echo /lib/arm-linux-gnueabihf/ld-linux-armhf.so.3
-            ldd /src/kindle-gnect/kindle-gnect | grep -oE "/[^[:space:]]+"
+            ldd /src/exact-four-in-a-row/exact-four-in-a-row | grep -oE "/[^[:space:]]+"
         } | sort -u
     ' > "$EXT_ROOT/LICENSES/RUNTIME-LIBS.txt"
 
@@ -54,11 +56,11 @@ else
     echo "No runtime libraries were bundled at packaging time." > "$EXT_ROOT/LICENSES/THIRD-PARTY-NOTICE.txt"
 fi
 
-chmod 755 "$EXT_ROOT/launch_kindlegnect.sh" \
-          "$EXT_ROOT/stop_kindlegnect.sh" \
-          "$EXT_ROOT/tail_log_kindlegnect.sh" \
-          "$DOC_ROOT/shortcut_kindlegnect.sh" \
-          "$EXT_ROOT/bin/armhf/kindle-gnect"
+chmod 755 "$EXT_ROOT/launch_exactfourinarow.sh" \
+          "$EXT_ROOT/stop_exactfourinarow.sh" \
+          "$EXT_ROOT/tail_log_exactfourinarow.sh" \
+          "$DOC_ROOT/shortcut_exactfourinarow.sh" \
+          "$EXT_ROOT/bin/armhf/exact-four-in-a-row"
 
 if [ -f "$EXT_ROOT/lib/armhf/ld-linux-armhf.so.3" ]; then
     chmod 755 "$EXT_ROOT/lib/armhf/ld-linux-armhf.so.3"
@@ -67,13 +69,13 @@ fi
 (
     cd "$PKG_ROOT"
     if command -v zip >/dev/null 2>&1; then
-        zip -qr kindle-gnect-extension.zip extensions documents
+        zip -qr exact-four-in-a-row-extension.zip extensions documents
     else
         python3 - <<'PY'
 import os
 import zipfile
 
-with zipfile.ZipFile("kindle-gnect-extension.zip", "w", zipfile.ZIP_DEFLATED) as zf:
+with zipfile.ZipFile("exact-four-in-a-row-extension.zip", "w", zipfile.ZIP_DEFLATED) as zf:
     for top in ("extensions", "documents"):
         for root, _, files in os.walk(top):
             for name in files:
@@ -83,5 +85,14 @@ PY
     fi
 )
 
+mkdir -p "$RELEASE_ROOT"
+cp "$PKG_ROOT/exact-four-in-a-row-extension.zip" "$RELEASE_ROOT/exact-four-in-a-row-extension.zip"
+(
+    cd "$RELEASE_ROOT"
+    sha256sum "exact-four-in-a-row-extension.zip" > SHA256SUMS
+)
+
 echo "Package created:"
-echo "  $PKG_ROOT/kindle-gnect-extension.zip"
+echo "  $PKG_ROOT/exact-four-in-a-row-extension.zip"
+echo "  $RELEASE_ROOT/exact-four-in-a-row-extension.zip"
+echo "  $RELEASE_ROOT/SHA256SUMS"

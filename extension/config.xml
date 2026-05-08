@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension>
   <information>
-    <name>Kindle Gnect</name>
-    <id>kindle_gnect</id>
+    <name>Exact Four in a Row</name>
+    <id>exact_four_in_a_row</id>
     <version>0.1.0</version>
   </information>
   <menus>

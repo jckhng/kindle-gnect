@@ -1,5 +1,5 @@
-#ifndef KINDLE_GNECT_ENGINE_H
-#define KINDLE_GNECT_ENGINE_H
+#ifndef EXACT_FOUR_IN_A_ROW_ENGINE_H
+#define EXACT_FOUR_IN_A_ROW_ENGINE_H
 
 #include <glib.h>
 

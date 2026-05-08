@@ -1,11 +1,11 @@
-# Kindle Gnect
+# Exact Four in a Row
 
 A Kindle-friendly Gnect/Connect Four app derived from GNOME Games' Gnect ideas
 and assets.
 
-![Kindle Gnect running on Kindle](screenshots/kindle-gnect.png)
+![Exact Four in a Row running on Kindle](screenshots/exact-four-in-a-row.png)
 
-Kindle Gnect is an unofficial Kindle-focused derivative/adaptation of GNOME
+Exact Four in a Row is an unofficial Kindle-focused derivative/adaptation of GNOME
 Games' Gnect. It keeps the Gnect/Connect Four game concept, visual assets, and
 GNOME Games lineage, while replacing the original GNOME desktop application
 shell with a small GTK2/Cairo interface packaged for jailbroken Kindle devices.
@@ -14,7 +14,7 @@ This project is also informed by the GnomeGames4Kindle porting work and follows
 the same packaging approach used by Kindle GlChess. Original GNOME Games /
 Gnect code, ideas, and artwork remain credited to the GNOME Games authors;
 Kindle porting groundwork and packaging references are credited to
-GnomeGames4Kindle and its author(s).
+GnomeGames4Kindle, originally by crazy-electron, and later contributors.
 
 ## Features
 
@@ -32,20 +32,20 @@ GnomeGames4Kindle and its author(s).
 Use the prebuilt extension package:
 
 ```text
-release/kindle-gnect-extension.zip
+release/exact-four-in-a-row-extension.zip
 ```
 
 Unzip it at the Kindle USB-storage root so it creates:
 
 ```text
-/mnt/us/extensions/kindle-gnect
-/mnt/us/documents/shortcut_kindlegnect.sh
+/mnt/us/extensions/exact-four-in-a-row
+/mnt/us/documents/shortcut_exactfourinarow.sh
 ```
 
 Then launch from KUAL:
 
 ```text
-KUAL -> Kindle Gnect -> Launch
+KUAL -> Exact Four in a Row -> Launch
 ```
 
 The document shortcut is optional. KUAL is the reliable launch path; a stock
@@ -84,10 +84,10 @@ ARMv7 Debian Bullseye container:
 
 That command:
 
-- Builds or starts the persistent `kindle-gnect-armhf-builder` container.
-- Compiles the ARM hard-float `kindle-gnect` binary.
+- Builds or starts the persistent `exact-four-in-a-row-armhf-builder` container.
+- Compiles the ARM hard-float `exact-four-in-a-row` binary.
 - Runs `smoke-test`.
-- Packages `dist/kindle-gnect-extension.zip`.
+- Packages `dist/exact-four-in-a-row-extension.zip`.
 
 If your Linux Docker install cannot run ARM containers, install binfmt support:
 
@@ -102,7 +102,7 @@ See [docs/BUILDING.md](docs/BUILDING.md) for the full build process.
 The checked-in release artifact is:
 
 ```text
-release/kindle-gnect-extension.zip
+release/exact-four-in-a-row-extension.zip
 ```
 
 Verify it with:
@@ -114,7 +114,7 @@ sha256sum -c SHA256SUMS
 
 ## License And Provenance
 
-Kindle Gnect is not an official GNOME project or an official
+Exact Four in a Row is not an official GNOME project or an official
 GnomeGames4Kindle release. It is a derivative/adaptation project that includes
 assets and project lineage from GNOME Games / Gnect and keeps the applicable
 GPL-family license texts in `licenses/`. The Kindle-specific application code
@@ -132,6 +132,6 @@ See [docs/PROVENANCE.md](docs/PROVENANCE.md).
 Before publishing a GitHub release, keep these files together:
 
 - Source tree, including `assets/`, `licenses/`, `docs/`, and `extension/`.
-- Binary package: `release/kindle-gnect-extension.zip`.
+- Binary package: `release/exact-four-in-a-row-extension.zip`.
 - Checksum file: `release/SHA256SUMS`.
-- Runtime notices embedded inside the zip under `extensions/kindle-gnect/LICENSES/`.
+- Runtime notices embedded inside the zip under `extensions/exact-four-in-a-row/LICENSES/`.

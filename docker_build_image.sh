@@ -2,7 +2,7 @@
 set -eu
 
 ROOT="$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)"
-IMAGE="${KINDLE_GNECT_DOCKER_IMAGE:-kindle-gnect-armhf-build:bullseye}"
+IMAGE="${EXACT_FOUR_IN_A_ROW_DOCKER_IMAGE:-exact-four-in-a-row-armhf-build:bullseye}"
 
 docker build \
     --platform linux/arm/v7 \

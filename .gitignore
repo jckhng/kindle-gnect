@@ -1,5 +1,5 @@
 # Native build outputs
-/kindle-gnect
+/exact-four-in-a-row
 /smoke-test
 *.o
 
@@ -8,7 +8,7 @@
 /release/
 /release/extensions/
 /release/documents/
-/release/kindle-gnect-extension/
+/release/exact-four-in-a-row-extension/
 
 # Editor/OS noise
 *~

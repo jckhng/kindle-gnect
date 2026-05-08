@@ -24,27 +24,27 @@ current guide for your exact device.
 
 ## Install
 
-Unzip `release/kindle-gnect-extension.zip` at the Kindle USB-storage root.
+Unzip `release/exact-four-in-a-row-extension.zip` at the Kindle USB-storage root.
 
 Expected paths:
 
 ```text
-/mnt/us/extensions/kindle-gnect
-/mnt/us/documents/shortcut_kindlegnect.sh
+/mnt/us/extensions/exact-four-in-a-row
+/mnt/us/documents/shortcut_exactfourinarow.sh
 ```
 
 Fix execute bits over SSH if needed:
 
 ```sh
-chmod 755 /mnt/us/extensions/kindle-gnect/*.sh
-chmod 755 /mnt/us/extensions/kindle-gnect/bin/armhf/kindle-gnect
-chmod 755 /mnt/us/documents/shortcut_kindlegnect.sh
+chmod 755 /mnt/us/extensions/exact-four-in-a-row/*.sh
+chmod 755 /mnt/us/extensions/exact-four-in-a-row/bin/armhf/exact-four-in-a-row
+chmod 755 /mnt/us/documents/shortcut_exactfourinarow.sh
 ```
 
 Launch from KUAL:
 
 ```text
-KUAL -> Kindle Gnect -> Launch
+KUAL -> Exact Four in a Row -> Launch
 ```
 
 The document shortcut is optional. KUAL is the reliable launch path; a stock
@@ -54,6 +54,6 @@ launcher/file association is installed.
 Logs:
 
 ```sh
-tail -n 120 /mnt/us/kindle-gnect.log
-tail -n 120 /mnt/us/kindle-gnect-shortcut.log
+tail -n 120 /mnt/us/exact-four-in-a-row.log
+tail -n 120 /mnt/us/exact-four-in-a-row-shortcut.log
 ```

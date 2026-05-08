@@ -6,12 +6,12 @@
 
 #include "gnect_engine.h"
 
-#define APP_TITLE "Kindle Gnect"
-#define KINDLE_WINDOW_TITLE "L:A_N:application_ID:kindlegnect_PC:N_O:URL"
-#define KINDLE_WINDOW_TITLE_TOPBAR "L:A_N:application_PC:T_ID:kindlegnect_O:URL"
-#define SAVE_PATH "/mnt/us/extensions/kindle-gnect/kindle-gnect.save"
-#define LEGACY_SAVE_PATH "/mnt/us/documents/kindle-gnect.txt"
-#define LOG_PATH "/mnt/us/kindle-gnect.log"
+#define APP_TITLE "Exact Four in a Row"
+#define KINDLE_WINDOW_TITLE "L:A_N:application_ID:exactfourinarow_PC:N_O:URL"
+#define KINDLE_WINDOW_TITLE_TOPBAR "L:A_N:application_PC:T_ID:exactfourinarow_O:URL"
+#define SAVE_PATH "/mnt/us/extensions/exact-four-in-a-row/exact-four-in-a-row.save"
+#define LEGACY_SAVE_PATH "/mnt/us/documents/exact-four-in-a-row.txt"
+#define LOG_PATH "/mnt/us/exact-four-in-a-row.log"
 #define KINDLE_APP_WIDTH 1072
 #define KINDLE_APP_HEIGHT 1448
 
@@ -680,7 +680,7 @@ static void build_ui(void)
     gtk_container_add(GTK_CONTAINER(app.window), vbox);
 
     title = gtk_label_new(NULL);
-    gtk_label_set_markup(GTK_LABEL(title), "<b>Kindle Gnect</b>");
+    gtk_label_set_markup(GTK_LABEL(title), "<b>Exact Four in a Row</b>");
     gtk_box_pack_start(GTK_BOX(vbox), title, FALSE, FALSE, 0);
 
     app.status = gtk_label_new("Red to move.");

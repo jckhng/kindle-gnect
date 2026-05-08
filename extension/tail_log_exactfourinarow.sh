@@ -1,6 +1,6 @@
 #!/bin/sh
 
-LOG_FILE="/mnt/us/kindle-gnect.log"
+LOG_FILE="/mnt/us/exact-four-in-a-row.log"
 
 if [ ! -f "$LOG_FILE" ]; then
     echo "No log yet: $LOG_FILE" >&2

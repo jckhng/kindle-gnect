@@ -2,8 +2,8 @@
 set -eu
 
 ROOT="$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)"
-IMAGE="${KINDLE_GNECT_DOCKER_IMAGE:-kindle-gnect-armhf-build:bullseye}"
-CONTAINER="${KINDLE_GNECT_DOCKER_CONTAINER:-kindle-gnect-armhf-builder}"
+IMAGE="${EXACT_FOUR_IN_A_ROW_DOCKER_IMAGE:-exact-four-in-a-row-armhf-build:bullseye}"
+CONTAINER="${EXACT_FOUR_IN_A_ROW_DOCKER_CONTAINER:-exact-four-in-a-row-armhf-builder}"
 
 if ! docker image inspect "$IMAGE" >/dev/null 2>&1; then
     "$ROOT/docker_build_image.sh"
@@ -17,8 +17,8 @@ else
     docker run -d \
         --platform linux/arm/v7 \
         --name "$CONTAINER" \
-        -v "$ROOT:/src/kindle-gnect" \
-        -w /src/kindle-gnect \
+        -v "$ROOT:/src/exact-four-in-a-row" \
+        -w /src/exact-four-in-a-row \
         "$IMAGE" \
         sleep infinity >/dev/null
 fi
